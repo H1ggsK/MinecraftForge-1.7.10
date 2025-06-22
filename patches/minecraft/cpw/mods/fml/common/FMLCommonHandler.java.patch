@@ -23,7 +23,7 @@
 -            int tModCount = Loader.instance().getModList().size();
 -            int aModCount = Loader.instance().getActiveModList().size();
 -            brd.add(String.format("%d mod%s loaded, %d mod%s active", tModCount, tModCount!=1 ? "s" :"", aModCount, aModCount!=1 ? "s" :"" ));
-+            brd.add("Minecraft " + System.getProperty("nebula.version", Loader.instance().getMCVersionString()));
++            brd.add("Minecraft " + System.getProperty("nebula.version", "1.7.10"));
              brandings = brd.build();
              brandingsNoMC = brandings.subList(1, brandings.size());
          }
