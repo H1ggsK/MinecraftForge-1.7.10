@@ -8,6 +8,15 @@
          this.field_71459_aj = p_i1103_5_;
          this.field_71443_c = p_i1103_2_;
          this.field_71440_d = p_i1103_3_;
+@@ -406,7 +405,7 @@
+         }
+ 
+         Display.setResizable(true);
+-        Display.setTitle("Minecraft 1.7.10");
++        Display.setTitle("Minecraft " + System.getProperty("nebula.version", "1.7.10"));
+         field_147123_G.info("LWJGL Version: " + Sys.getVersion());
+         Util.EnumOS enumos = Util.func_110647_a();
+ 
 @@ -430,7 +429,7 @@
  
          try
@@ -17,7 +26,20 @@
          }
          catch (LWJGLException lwjglexception)
          {
-@@ -552,7 +551,7 @@
+@@ -482,7 +481,11 @@
+         this.field_71446_o = new TextureManager(this.field_110451_am);
+         this.field_110451_am.func_110542_a(this.field_71446_o);
+         this.field_152350_aA = new SkinManager(this.field_71446_o, new File(this.field_110446_Y, "skins"), this.field_152355_az);
+-        cpw.mods.fml.client.SplashProgress.drawVanillaScreen();
++        if (Boolean.parseBoolean(System.getProperty("nebula.launchinfo", "false"))) {
++            cpw.mods.fml.client.SplashProgress.drawVanillaScreen();
++        } else {
++            this.func_71357_I();
++        }
+         this.field_147127_av = new SoundHandler(this.field_110451_am, this.field_71474_y);
+         this.field_110451_am.func_110542_a(this.field_147127_av);
+         this.field_147126_aw = new MusicTicker(this);
+@@ -552,7 +555,7 @@
          cpw.mods.fml.common.ProgressManager.pop(bar);
          FMLClientHandler.instance().finishMinecraftLoading();
          this.func_71361_d("Post startup");
@@ -26,7 +48,20 @@
  
          if (this.field_71475_ae != null)
          {
-@@ -772,11 +771,6 @@
+@@ -563,7 +566,11 @@
+             this.func_147108_a(new GuiMainMenu());
+         }
+ 
+-        cpw.mods.fml.client.SplashProgress.clearVanillaResources(field_71446_o, field_152354_ay);
++        if (Boolean.parseBoolean(System.getProperty("nebula.launchinfo", "false"))) {
++            cpw.mods.fml.client.SplashProgress.clearVanillaResources(field_71446_o, field_152354_ay);
++        } else {
++            this.field_71446_o.func_147645_c(this.field_152354_ay);
++        }
+         this.field_152354_ay = null;
+         this.field_71461_s = new LoadingScreenRenderer(this);
+ 
+@@ -772,11 +779,6 @@
  
      public void func_147108_a(GuiScreen p_147108_1_)
      {
@@ -38,7 +73,7 @@
          if (p_147108_1_ == null && this.field_71441_e == null)
          {
              p_147108_1_ = new GuiMainMenu();
-@@ -786,6 +780,17 @@
+@@ -786,6 +788,17 @@
              p_147108_1_ = new GuiGameOver();
          }
  
@@ -56,7 +91,7 @@
          if (p_147108_1_ instanceof GuiMainMenu)
          {
              this.field_71474_y.field_74330_P = false;
-@@ -1353,7 +1358,7 @@
+@@ -1352,7 +1365,7 @@
  
                      if (this.field_71439_g.func_82246_f(i, j, k))
                      {
@@ -65,7 +100,7 @@
                          this.field_71439_g.func_71038_i();
                      }
                  }
-@@ -1434,11 +1439,12 @@
+@@ -1433,11 +1446,12 @@
                      int j = this.field_71476_x.field_72312_c;
                      int k = this.field_71476_x.field_72309_d;
  
@@ -80,7 +115,7 @@
                          {
                              flag = false;
                              this.field_71439_g.func_71038_i();
-@@ -1465,7 +1471,8 @@
+@@ -1464,7 +1478,8 @@
          {
              ItemStack itemstack1 = this.field_71439_g.field_71071_by.func_70448_g();
  
@@ -90,7 +125,7 @@
              {
                  this.field_71460_t.field_78516_c.func_78445_c();
              }
-@@ -1677,6 +1684,8 @@
+@@ -1676,6 +1691,8 @@
  
              while (Mouse.next())
              {
@@ -99,7 +134,7 @@
                  j = Mouse.getEventButton();
                  KeyBinding.func_74510_a(j - 100, Mouse.getEventButtonState());
  
-@@ -2139,6 +2148,11 @@
+@@ -2138,6 +2155,11 @@
  
      public void func_71353_a(WorldClient p_71353_1_, String p_71353_2_)
      {
@@ -111,7 +146,7 @@
          if (p_71353_1_ == null)
          {
              NetHandlerPlayClient nethandlerplayclient = this.func_147114_u();
-@@ -2151,6 +2165,18 @@
+@@ -2150,6 +2172,18 @@
              if (this.field_71437_Z != null)
              {
                  this.field_71437_Z.func_71263_m();
@@ -130,7 +165,7 @@
              }
  
              this.field_71437_Z = null;
-@@ -2299,113 +2325,10 @@
+@@ -2298,113 +2332,10 @@
          if (this.field_71476_x != null)
          {
              boolean flag = this.field_71439_g.field_71075_bZ.field_75098_d;
@@ -246,7 +281,7 @@
              if (flag)
              {
                  j = this.field_71439_g.field_71069_bz.field_75151_b.size() - 9 + this.field_71439_g.field_71071_by.field_70461_c;
-@@ -2671,8 +2594,15 @@
+@@ -2670,8 +2601,15 @@
          p_70001_1_.func_152767_b("gl_max_texture_size", Integer.valueOf(func_71369_N()));
      }
  
@@ -262,7 +297,7 @@
          for (int i = 16384; i > 0; i >>= 1)
          {
              GL11.glTexImage2D(GL11.GL_PROXY_TEXTURE_2D, 0, GL11.GL_RGBA, i, i, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer)null);
-@@ -2680,6 +2610,7 @@
+@@ -2679,6 +2617,7 @@
  
              if (j != 0)
              {

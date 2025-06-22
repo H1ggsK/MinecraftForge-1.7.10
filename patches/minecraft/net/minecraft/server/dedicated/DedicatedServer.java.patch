@@ -1,0 +1,11 @@
+--- ../src-base/minecraft/net/minecraft/server/dedicated/DedicatedServer.java
++++ ../src-work/minecraft/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -107,7 +107,7 @@
+         };
+         thread.setDaemon(true);
+         thread.start();
+-        field_155771_h.info("Starting minecraft server version 1.7.10");
++        field_155771_h.info("Starting minecraft server version " + System.getProperty("nebula.version", "1.7.10"));
+ 
+         if (Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L)
+         {

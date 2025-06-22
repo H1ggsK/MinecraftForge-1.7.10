@@ -8,11 +8,149 @@
  import org.apache.commons.io.Charsets;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
-@@ -507,6 +508,7 @@
+@@ -65,7 +66,7 @@
+     public GuiMainMenu()
+     {
+         this.field_146972_A = field_96138_a;
+-        this.field_73975_c = "missingno";
++        this.field_73975_c = "";
+         BufferedReader bufferedreader = null;
+ 
+         try
+@@ -175,9 +176,16 @@
+             this.func_73969_a(i, 24);
+         }
+ 
+-        this.field_146292_n.add(new GuiButton(0, this.field_146294_l / 2 - 100, i + 72 + 12, 98, 20, I18n.func_135052_a("menu.options", new Object[0])));
+-        this.field_146292_n.add(new GuiButton(4, this.field_146294_l / 2 + 2, i + 72 + 12, 98, 20, I18n.func_135052_a("menu.quit", new Object[0])));
+-        this.field_146292_n.add(new GuiButtonLanguage(5, this.field_146294_l / 2 - 124, i + 72 + 12));
++        if (Boolean.parseBoolean(System.getProperty("nebula.mainmenunoquit", "false"))) {
++            this.field_146292_n.add(new GuiButton(0, this.field_146294_l / 2 - 100, i + 72 + 12, I18n.func_135052_a("menu.options", new Object[0])));
++        } else {
++            this.field_146292_n.add(new GuiButton(0, this.field_146294_l / 2 - 100, i + 72 + 12, 98, 20, I18n.func_135052_a("menu.options", new Object[0])));
++            this.field_146292_n.add(new GuiButton(4, this.field_146294_l / 2 + 2, i + 72 + 12, 98, 20, I18n.func_135052_a("menu.quit", new Object[0])));
++        }
++
++        if (!Boolean.parseBoolean(System.getProperty("nebula.mainmenunolang", "false"))) {
++            this.field_146292_n.add(new GuiButtonLanguage(5, this.field_146294_l / 2 - 124, i + 72 + 12));
++        }
+         Object object = this.field_104025_t;
+ 
+         synchronized (this.field_104025_t)
+@@ -195,14 +203,28 @@
+     private void func_73969_a(int p_73969_1_, int p_73969_2_)
+     {
+         this.field_146292_n.add(new GuiButton(1, this.field_146294_l / 2 - 100, p_73969_1_, I18n.func_135052_a("menu.singleplayer", new Object[0])));
+-        this.field_146292_n.add(new GuiButton(2, this.field_146294_l / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.func_135052_a("menu.multiplayer", new Object[0])));
++        GuiButton multiButton = new GuiButton(2, this.field_146294_l / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.func_135052_a("menu.multiplayer", new Object[0]));
++        if (Boolean.parseBoolean(System.getProperty("nebula.mainmenugraymp", "false"))) {
++            multiButton.field_146124_l = false;
++        }
++        if (!(Boolean.parseBoolean(System.getProperty("nebula.mainmenuhidemp", "false")))) {
++            this.field_146292_n.add(multiButton);
++        }
+         GuiButton realmsButton = new GuiButton(14, this.field_146294_l / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.func_135052_a("menu.online", new Object[0]));
+         GuiButton fmlModButton = new GuiButton(6, this.field_146294_l / 2 - 100, p_73969_1_ + p_73969_2_ * 2, "Mods");
+         fmlModButton.field_146128_h = this.field_146294_l / 2 + 2;
+         realmsButton.field_146120_f = 98;
+         fmlModButton.field_146120_f = 98;
+-        this.field_146292_n.add(realmsButton);
+-        this.field_146292_n.add(fmlModButton);
++        if (Boolean.parseBoolean(System.getProperty("nebula.mainmenurealms", "false"))) {
++            this.field_146292_n.add(realmsButton);
++        }
++        if (Boolean.parseBoolean(System.getProperty("nebula.mainmenumods", "false"))) {
++            this.field_146292_n.add(fmlModButton);
++        }
++        if (Boolean.parseBoolean(System.getProperty("nebula.mainmenubigrealms", "false"))) {
++            this.field_146292_n.add(new GuiButton(14, this.field_146294_l / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.func_135052_a("menu.online", new Object[0])));
++        }
++
+     }
+ 
+     private void func_73972_b(int p_73972_1_, int p_73972_2_)
+@@ -491,7 +513,7 @@
+         GL11.glScalef(f1, f1, f1);
+         this.func_73732_a(this.field_146289_q, this.field_73975_c, 0, -8, -256);
+         GL11.glPopMatrix();
+-        String s = "Minecraft 1.7.10";
++        String s = "Minecraft " + System.getProperty("nebula.version", "1.7.10");
+ 
+         if (this.field_146297_k.func_71355_q())
+         {
+@@ -507,7 +529,14 @@
                  this.func_73731_b(this.field_146289_q, brd, 2, this.field_146295_m - ( 10 + i * (this.field_146289_q.field_78288_b + 1)), 16777215);
              }
          }
+-        String s1 = "Copyright Mojang AB. Do not distribute!";
 +        ForgeHooksClient.renderMainMenu(this, field_146289_q, field_146294_l, field_146295_m);
-         String s1 = "Copyright Mojang AB. Do not distribute!";
++        String text = System.getProperty("nebula.mainmenucopyright", "Copyright Mojang AB. Do not distribute!");
++        String s1;
++        if (Boolean.parseBoolean(System.getProperty("nebula.mainmenuglitchtext", "false"))) {
++            s1 = GlitchHelper.glitchText(text);
++        } else {
++            s1 = text;
++        }
          this.func_73731_b(this.field_146289_q, s1, this.field_146294_l - this.field_146289_q.func_78256_a(s1) - 2, this.field_146295_m - 10, -1);
  
+         if (this.field_92025_p != null && this.field_92025_p.length() > 0)
+@@ -535,4 +564,59 @@
+             }
+         }
+     }
++
++    private static class GlitchHelper {
++        private static final Random rand = new Random();
++        private static final String GLITCH_CHARS =
++                "\u2591\u2592\u2593\u220F\u2310\u255A\u2554\u2569\u2566\u2560\u2550\u256C\u258C\u2590\u2588\u25A0\u00BF\u240D\u2320\u255E\u2584\u2580";
++
++        private static GlitchRecord[] records = new GlitchRecord[0];
++        private static String lastOriginal = null;
++
++        public static String glitchText(String original) {
++            if (original == null) {
++                return null;
++            }
++
++            // Check if the original string has changed since the last call
++            if (lastOriginal == null || !original.equals(lastOriginal)) {
++                records = new GlitchRecord[original.length()];
++                lastOriginal = original;
++            }
++
++            char[] chars = original.toCharArray();
++            long currentTime = System.currentTimeMillis();
++
++            for (int i = 0; i < chars.length; i++) {
++                GlitchRecord record = records[i];
++                if (record != null) {
++                    long elapsed = currentTime - record.timestamp;
++                    if (elapsed < 300) {
++                        chars[i] = record.replacement;
++                        continue;
++                    } else {
++                        records[i] = null;
++                    }
++                }
++
++                if (rand.nextFloat() < 0.05f) {
++                    char glitchChar = GLITCH_CHARS.charAt(rand.nextInt(GLITCH_CHARS.length()));
++                    chars[i] = glitchChar;
++                    records[i] = new GlitchRecord(glitchChar, currentTime);
++                }
++            }
++
++            return new String(chars);
++        }
++
++        private static class GlitchRecord {
++            char replacement;
++            long timestamp;
++
++            GlitchRecord(char replacement, long timestamp) {
++                this.replacement = replacement;
++                this.timestamp = timestamp;
++            }
++        }
++    }
+ }

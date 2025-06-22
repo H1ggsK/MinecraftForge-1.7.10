@@ -78,7 +78,7 @@ public class GuiIngameForge extends GuiIngame
     private ScaledResolution res = null;
     private FontRenderer fontrenderer = null;
     private RenderGameOverlayEvent eventParent;
-    private static final String MC_VERSION = MinecraftForge.MC_VERSION;
+    private static final String MC_VERSION = System.getProperty("nebula.version", MinecraftForge.MC_VERSION);
 
     public GuiIngameForge(Minecraft mc)
     {

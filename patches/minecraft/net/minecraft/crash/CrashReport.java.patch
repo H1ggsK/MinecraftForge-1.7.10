@@ -1,0 +1,11 @@
+--- ../src-base/minecraft/net/minecraft/crash/CrashReport.java
++++ ../src-work/minecraft/net/minecraft/crash/CrashReport.java
+@@ -48,7 +48,7 @@
+             private static final String __OBFID = "CL_00001197";
+             public String call()
+             {
+-                return "1.7.10";
++                return System.getProperty("nebula.version", "1.7.10");
+             }
+         });
+         this.field_85061_c.func_71500_a("Operating System", new Callable()

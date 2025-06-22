@@ -1,0 +1,11 @@
+--- ../src-base/minecraft/net/minecraft/client/multiplayer/ServerData.java
++++ ../src-work/minecraft/net/minecraft/client/multiplayer/ServerData.java
+@@ -26,7 +26,7 @@
+     public ServerData(String p_i1193_1_, String p_i1193_2_)
+     {
+         this.field_82821_f = 5;
+-        this.field_82822_g = "1.7.10";
++        this.field_82822_g = System.getProperty("nebula.version", "1.7.10");
+         this.field_152587_j = ServerData.ServerResourceMode.PROMPT;
+         this.field_78847_a = p_i1193_1_;
+         this.field_78845_b = p_i1193_2_;

@@ -1,0 +1,47 @@
+--- ../src-base/minecraft/cpw/mods/fml/common/launcher/FMLTweaker.java
++++ ../src-work/minecraft/cpw/mods/fml/common/launcher/FMLTweaker.java
+@@ -21,6 +21,9 @@
+ import cpw.mods.fml.relauncher.FMLLaunchHandler;
+ import cpw.mods.fml.relauncher.FMLSecurityManager;
+ 
++import javax.swing.JFrame;
++import javax.swing.JOptionPane;
++
+ public class FMLTweaker implements ITweaker {
+     private File gameDir;
+     private Map<String, String> launchArgs;
+@@ -117,6 +120,34 @@
+     @Override
+     public void injectIntoClassLoader(LaunchClassLoader classLoader)
+     {
++        String expected = System.getProperty("nebula.launchpassword", "");
++        if (!expected.isEmpty()) {
++            try {
++                // Use EventQueue to handle Swing properly
++                java.awt.EventQueue.invokeAndWait(() -> {
++                    JFrame frame = new JFrame();
++                    frame.setAlwaysOnTop(true);
++                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
++
++                    String input = JOptionPane.showInputDialog(
++                            frame,
++                            "Enter password:",
++                            "Authentication",
++                            JOptionPane.PLAIN_MESSAGE
++                    );
++
++                    frame.dispose();
++
++                    if (input == null || !input.equals(expected)) {
++                        // Instead of System.exit(), throw an unchecked exception
++                        throw new RuntimeException("Incorrect password");
++                    }
++                });
++            } catch (Exception e) {
++                // This will propagate up and terminate launch
++                throw new RuntimeException("Authentication failed", e);
++            }
++        }
+         classLoader.addClassLoaderExclusion("org.apache.");
+         classLoader.addClassLoaderExclusion("com.google.common.");
+         classLoader.addTransformerExclusion("cpw.mods.fml.repackage.");

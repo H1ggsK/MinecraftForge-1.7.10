@@ -125,6 +125,15 @@
              }
  
              if (this.field_71307_n.func_76468_d())
+@@ -403,7 +390,7 @@
+                 long i = func_130071_aq();
+                 long l = 0L;
+                 this.field_147147_p.func_151315_a(new ChatComponentText(this.field_71286_C));
+-                this.field_147147_p.func_151321_a(new ServerStatusResponse.MinecraftProtocolVersionIdentifier("1.7.10", 5));
++                this.field_147147_p.func_151321_a(new ServerStatusResponse.MinecraftProtocolVersionIdentifier(System.getProperty("nebula.version", "1.7.10"), 5));
+                 this.func_147138_a(this.field_147147_p);
+ 
+                 while (this.field_71317_u)
 @@ -606,15 +593,18 @@
      public void func_71190_q()
      {
@@ -160,7 +169,7 @@
          this.field_71304_b.func_76318_c("connection");
          this.func_147137_ag().func_151269_c();
          this.field_71304_b.func_76318_c("players");
-@@ -707,7 +699,13 @@
+@@ -707,12 +699,18 @@
  
      public WorldServer func_71218_a(int p_71218_1_)
      {
@@ -175,6 +184,12 @@
      }
  
      public String func_71249_w()
+     {
+-        return "1.7.10";
++        return System.getProperty("nebula.version", "1.7.10");
+     }
+ 
+     public int func_71233_x()
 @@ -971,6 +969,7 @@
  
              if (worldserver != null)

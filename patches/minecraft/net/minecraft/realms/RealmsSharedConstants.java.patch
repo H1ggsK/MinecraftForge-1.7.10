@@ -1,0 +1,10 @@
+--- ../src-base/minecraft/net/minecraft/realms/RealmsSharedConstants.java
++++ ../src-work/minecraft/net/minecraft/realms/RealmsSharedConstants.java
+@@ -8,6 +8,6 @@
+ {
+     public static int NETWORK_PROTOCOL_VERSION = 5;
+     public static int TICKS_PER_SECOND = 20;
+-    public static String VERSION_STRING = "1.7.10";
++    public static String VERSION_STRING = System.getProperty("nebula.version", "1.7.10");
+     private static final String __OBFID = "CL_00001866";
+ }

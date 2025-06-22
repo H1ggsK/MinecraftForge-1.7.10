@@ -10,7 +10,7 @@
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
-@@ -54,44 +57,23 @@
+@@ -54,51 +57,30 @@
      protected void func_71247_a(String p_71247_1_, String p_71247_2_, long p_71247_3_, WorldType p_71247_5_, String p_71247_6_)
      {
          this.func_71237_c(p_71247_1_);
@@ -63,3 +63,11 @@
          this.func_147139_a(this.func_147135_j());
          this.func_71222_d();
      }
+ 
+     protected boolean func_71197_b() throws IOException
+     {
+-        field_147148_h.info("Starting integrated minecraft server version 1.7.10");
++        field_147148_h.info("Starting integrated minecraft server version " + System.getProperty("nebula.version", "1.7.10"));
+         this.func_71229_d(true);
+         this.func_71251_e(true);
+         this.func_71257_f(true);

@@ -1,0 +1,46 @@
+--- ../src-base/minecraft/cpw/mods/fml/client/FMLClientHandler.java
++++ ../src-work/minecraft/cpw/mods/fml/client/FMLClientHandler.java
+@@ -190,7 +190,9 @@
+     public void beginMinecraftLoading(Minecraft minecraft, @SuppressWarnings("rawtypes") List resourcePackList, IReloadableResourceManager resourceManager)
+     {
+         detectOptifine();
+-        SplashProgress.start();
++        if (Boolean.parseBoolean(System.getProperty("nebula.launchinfo", "false"))) {
++            SplashProgress.start();
++        }
+         client = minecraft;
+         this.resourcePackList = resourcePackList;
+         this.resourceManager = resourceManager;
+@@ -303,7 +305,9 @@
+     {
+         if (modsMissing != null || wrongMC != null || customError!=null || dupesFound!=null || modSorting!=null)
+         {
+-            SplashProgress.finish();
++            if (Boolean.parseBoolean(System.getProperty("nebula.launchinfo", "false"))) {
++                SplashProgress.finish();
++            }
+             return;
+         }
+         try
+@@ -314,7 +318,9 @@
+         {
+             FMLLog.log(Level.ERROR, custom, "A custom exception was thrown by a mod, the game will now halt");
+             customError = custom;
+-            SplashProgress.finish();
++            if (Boolean.parseBoolean(System.getProperty("nebula.launchinfo", "false"))) {
++                SplashProgress.finish();
++            }
+             return;
+         }
+         catch (LoaderException le)
+@@ -402,7 +408,9 @@
+         else
+         {
+             Loader.instance().loadingComplete();
+-            SplashProgress.finish();
++            if (Boolean.parseBoolean(System.getProperty("nebula.launchinfo", "false"))) {
++                SplashProgress.finish();
++            }
+         }
+         logMissingTextureErrors();
+     }

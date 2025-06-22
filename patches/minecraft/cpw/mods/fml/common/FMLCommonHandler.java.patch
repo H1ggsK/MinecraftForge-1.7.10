@@ -1,0 +1,29 @@
+--- ../src-base/minecraft/cpw/mods/fml/common/FMLCommonHandler.java
++++ ../src-work/minecraft/cpw/mods/fml/common/FMLCommonHandler.java
+@@ -205,25 +205,7 @@
+         if (brandings == null)
+         {
+             Builder<String> brd = ImmutableList.<String>builder();
+-            brd.add(Loader.instance().getMCVersionString());
+-            brd.add(Loader.instance().getMCPVersionString());
+-            brd.add("FML v"+Loader.instance().getFMLVersionString());
+-            String forgeBranding = (String) callForgeMethod("getBrandingVersion");
+-            if (!Strings.isNullOrEmpty(forgeBranding))
+-            {
+-                brd.add(forgeBranding);
+-            }
+-            if (sidedDelegate!=null)
+-            {
+-                brd.addAll(sidedDelegate.getAdditionalBrandingInformation());
+-            }
+-            if (Loader.instance().getFMLBrandingProperties().containsKey("fmlbranding"))
+-            {
+-                brd.add(Loader.instance().getFMLBrandingProperties().get("fmlbranding"));
+-            }
+-            int tModCount = Loader.instance().getModList().size();
+-            int aModCount = Loader.instance().getActiveModList().size();
+-            brd.add(String.format("%d mod%s loaded, %d mod%s active", tModCount, tModCount!=1 ? "s" :"", aModCount, aModCount!=1 ? "s" :"" ));
++            brd.add("Minecraft " + System.getProperty("nebula.version", Loader.instance().getMCVersionString()));
+             brandings = brd.build();
+             brandingsNoMC = brandings.subList(1, brandings.size());
+         }

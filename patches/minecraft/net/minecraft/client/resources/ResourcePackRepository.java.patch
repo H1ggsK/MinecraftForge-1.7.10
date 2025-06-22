@@ -1,0 +1,11 @@
+--- ../src-base/minecraft/net/minecraft/client/resources/ResourcePackRepository.java
++++ ../src-work/minecraft/net/minecraft/client/resources/ResourcePackRepository.java
+@@ -182,7 +182,7 @@
+         GuiScreenWorking guiscreenworking = new GuiScreenWorking();
+         hashmap.put("X-Minecraft-Username", Minecraft.func_71410_x().func_110432_I().func_111285_a());
+         hashmap.put("X-Minecraft-UUID", Minecraft.func_71410_x().func_110432_I().func_148255_b());
+-        hashmap.put("X-Minecraft-Version", "1.7.10");
++        hashmap.put("X-Minecraft-Version", System.getProperty("nebula.version", "1.7.10") );
+         this.field_148533_g = true;
+         Minecraft.func_71410_x().func_147108_a(guiscreenworking);
+         HttpUtil.func_151223_a(p_148528_2_, p_148528_1_, new HttpUtil.DownloadListener()

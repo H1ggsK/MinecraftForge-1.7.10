@@ -1,0 +1,11 @@
+--- ../src-base/minecraft/net/minecraft/client/gui/GuiIngame.java
++++ ../src-work/minecraft/net/minecraft/client/gui/GuiIngame.java
+@@ -301,7 +301,7 @@
+         {
+             this.field_73839_d.field_71424_I.func_76320_a("debug");
+             GL11.glPushMatrix();
+-            fontrenderer.func_78261_a("Minecraft 1.7.10 (" + this.field_73839_d.field_71426_K + ")", 2, 2, 16777215);
++            fontrenderer.func_78261_a("Minecraft " + System.getProperty("nebula.version", "1.7.10") + " (" + this.field_73839_d.field_71426_K + ")", 2, 2, 16777215);
+             fontrenderer.func_78261_a(this.field_73839_d.func_71393_m(), 2, 12, 16777215);
+             fontrenderer.func_78261_a(this.field_73839_d.func_71408_n(), 2, 22, 16777215);
+             fontrenderer.func_78261_a(this.field_73839_d.func_71374_p(), 2, 32, 16777215);
