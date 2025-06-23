@@ -10,38 +10,39 @@
  public class FMLTweaker implements ITweaker {
      private File gameDir;
      private Map<String, String> launchArgs;
-@@ -117,6 +120,34 @@
+@@ -117,6 +120,35 @@
      @Override
      public void injectIntoClassLoader(LaunchClassLoader classLoader)
      {
 +        String expected = System.getProperty("nebula.launchpassword", "");
 +        if (!expected.isEmpty()) {
 +            try {
-+                // Use EventQueue to handle Swing properly
-+                java.awt.EventQueue.invokeAndWait(() -> {
-+                    JFrame frame = new JFrame();
-+                    frame.setAlwaysOnTop(true);
-+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
++                final String[] inputHolder = new String[1];
++                javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
++                    public void run() {
++                        javax.swing.JFrame frame = new javax.swing.JFrame();
++                        frame.setAlwaysOnTop(true);
 +
-+                    String input = JOptionPane.showInputDialog(
-+                            frame,
-+                            "Enter password:",
-+                            "Authentication",
-+                            JOptionPane.PLAIN_MESSAGE
-+                    );
++                        inputHolder[0] = javax.swing.JOptionPane.showInputDialog(
++                                frame,
++                                "Enter password:",
++                                "Authentication",
++                                javax.swing.JOptionPane.PLAIN_MESSAGE
++                        );
 +
-+                    frame.dispose();
-+
-+                    if (input == null || !input.equals(expected)) {
-+                        // Instead of System.exit(), throw an unchecked exception
-+                        throw new RuntimeException("Incorrect password");
++                        frame.dispose();
 +                    }
 +                });
++
++                String input = inputHolder[0];
++                if (input == null || !input.equals(expected)) {
++                    throw new RuntimeException("Incorrect password");
++                }
 +            } catch (Exception e) {
-+                // This will propagate up and terminate launch
 +                throw new RuntimeException("Authentication failed", e);
 +            }
 +        }
++
          classLoader.addClassLoaderExclusion("org.apache.");
          classLoader.addClassLoaderExclusion("com.google.common.");
          classLoader.addTransformerExclusion("cpw.mods.fml.repackage.");
