@@ -14,7 +14,7 @@
  
 -        if (!this.field_146297_k.func_71387_A())
 -        {
-+        if (!this.field_146297_k.func_71387_A() && !Boolean.parseBoolean(System.getProperty("nebula.looklikesp", "false"))) {
++        if (!this.field_146297_k.func_71387_A() && !Boolean.parseBoolean(System.getProperty("nebula.ingamemenulooklikesp", "false"))) {
              ((GuiButton)this.field_146292_n.get(0)).field_146126_j = I18n.func_135052_a("menu.disconnect", new Object[0]);
          }
  
@@ -29,7 +29,7 @@
          this.field_146292_n.add(new GuiButton(6, this.field_146294_l / 2 + 2, this.field_146295_m / 4 + 48 + b0, 98, 20, I18n.func_135052_a("gui.stats", new Object[0])));
 -        guibutton.field_146124_l = this.field_146297_k.func_71356_B() && !this.field_146297_k.func_71401_C().func_71344_c();
 +        IntegratedServer srv = this.field_146297_k.func_71401_C();
-+        if (Boolean.parseBoolean(System.getProperty("nebula.looklikesp", "false"))) {
++        if (Boolean.parseBoolean(System.getProperty("nebula.ingamemenulooklikesp", "false"))) {
 +            if (srv == null) {
 +                guiButton.field_146124_l = true;
 +                guiButton.field_146127_k = 13;
