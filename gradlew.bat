@@ -16,14 +16,23 @@ if "%DIRNAME%" == "" set DIRNAME=.
 set APP_BASE_NAME=%~n0
 set APP_HOME=%DIRNAME%
 if "%GRADLE_USER_HOME%" == "" set GRADLE_USER_HOME=%APP_HOME%\.gradle
-set LOCAL_JDK8_HOME=%APP_HOME%\.jdks\jdk8u482-b08
-if exist "%LOCAL_JDK8_HOME%\lib\tools.jar" (
-    if "%JAVA_HOME%" == "" (
-        set JAVA_HOME=%LOCAL_JDK8_HOME%
-    ) else (
-        if not exist "%JAVA_HOME%\lib\tools.jar" set JAVA_HOME=%LOCAL_JDK8_HOME%
+set LOCAL_JDK_HOME=
+if exist "%APP_HOME%\.jdks" (
+    for /d %%D in ("%APP_HOME%\.jdks\*") do (
+        if exist "%%~fD\lib\tools.jar" (
+            set LOCAL_JDK_HOME=%%~fD
+            goto setLocalJavaHome
+        )
+    )
+    for /d %%D in ("%APP_HOME%\.jdks\*") do (
+        if exist "%%~fD\bin\java.exe" (
+            set LOCAL_JDK_HOME=%%~fD
+            goto setLocalJavaHome
+        )
     )
 )
+:setLocalJavaHome
+if not "%LOCAL_JDK_HOME%" == "" set JAVA_HOME=%LOCAL_JDK_HOME%
 
 @rem Find java.exe
 if defined JAVA_HOME goto findJavaFromJavaHome

@@ -68,6 +68,30 @@ cd "$SAVED" >&-
 if [ -z "$GRADLE_USER_HOME" ] ; then
     GRADLE_USER_HOME="$APP_HOME/.gradle"
 fi
+export GRADLE_USER_HOME
+
+LOCAL_JDK_HOME=""
+if [ -d "$APP_HOME/.jdks" ] ; then
+    for d in "$APP_HOME"/.jdks/* ; do
+        if [ -d "$d" ] && [ -x "$d/bin/java" ] && [ -f "$d/lib/tools.jar" ] ; then
+            LOCAL_JDK_HOME="$d"
+            break
+        fi
+    done
+    if [ -z "$LOCAL_JDK_HOME" ] ; then
+        for d in "$APP_HOME"/.jdks/* ; do
+            if [ -d "$d" ] && [ -x "$d/bin/java" ] ; then
+                LOCAL_JDK_HOME="$d"
+                break
+            fi
+        done
+    fi
+fi
+
+if [ -n "$LOCAL_JDK_HOME" ] ; then
+    JAVA_HOME="$LOCAL_JDK_HOME"
+fi
+export JAVA_HOME
 
 CLASSPATH=$APP_HOME/fml/gradle/wrapper/gradle-wrapper.jar
 

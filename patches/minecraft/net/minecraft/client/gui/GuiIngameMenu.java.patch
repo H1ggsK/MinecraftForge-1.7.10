@@ -8,13 +8,16 @@
  
  @SideOnly(Side.CLIENT)
  public class GuiIngameMenu extends GuiScreen
-@@ -23,19 +24,27 @@
+@@ -23,19 +24,38 @@
          boolean flag = true;
          this.field_146292_n.add(new GuiButton(1, this.field_146294_l / 2 - 100, this.field_146295_m / 4 + 120 + b0, I18n.func_135052_a("menu.returnToMenu", new Object[0])));
  
 -        if (!this.field_146297_k.func_71387_A())
 -        {
-+        if (!this.field_146297_k.func_71387_A() && !Boolean.parseBoolean(System.getProperty("nebula.ingamemenulooklikesp", "false"))) {
++        boolean lookLikeSp = Boolean.parseBoolean(System.getProperty("nebula.ingamemenulooklikesp", "false"));
++        boolean alwaysSp = Boolean.parseBoolean(System.getProperty("nebula.ingamemenualwayssp", "false"));
++
++        if (!this.field_146297_k.func_71387_A() && !lookLikeSp) {
              ((GuiButton)this.field_146292_n.get(0)).field_146126_j = I18n.func_135052_a("menu.disconnect", new Object[0]);
          }
  
@@ -29,7 +32,15 @@
          this.field_146292_n.add(new GuiButton(6, this.field_146294_l / 2 + 2, this.field_146295_m / 4 + 48 + b0, 98, 20, I18n.func_135052_a("gui.stats", new Object[0])));
 -        guibutton.field_146124_l = this.field_146297_k.func_71356_B() && !this.field_146297_k.func_71401_C().func_71344_c();
 +        IntegratedServer srv = this.field_146297_k.func_71401_C();
-+        if (Boolean.parseBoolean(System.getProperty("nebula.ingamemenulooklikesp", "false"))) {
++
++        if (alwaysSp) {
++            guiButton.field_146124_l = true;
++
++            if (srv == null || srv.func_71344_c()) {
++                guiButton.field_146127_k = 13;
++            }
++        }
++        else if (lookLikeSp) {
 +            if (srv == null) {
 +                guiButton.field_146124_l = true;
 +                guiButton.field_146127_k = 13;
@@ -42,7 +53,7 @@
      }
  
      protected void func_146284_a(GuiButton p_146284_1_)
-@@ -59,9 +68,11 @@
+@@ -59,9 +79,11 @@
                  this.field_146297_k.func_71381_h();
                  break;
              case 5:
@@ -54,7 +65,7 @@
                  this.field_146297_k.func_147108_a(new GuiStats(this, this.field_146297_k.field_71439_g.func_146107_m()));
                  break;
              case 7:
-@@ -70,6 +81,8 @@
+@@ -70,6 +92,8 @@
              case 12:
                  FMLClientHandler.instance().showInGameModOptions(this);
                  break;
