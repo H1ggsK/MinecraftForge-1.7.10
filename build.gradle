@@ -1,8 +1,16 @@
 buildscript {
+    if (java.security.Security.getProvider("SunEC") == null) {
+        java.security.Security.addProvider(new sun.security.ec.SunEC())
+    }
     repositories {
         maven {
+            name = "localForgeProxy"
+            url = uri("${rootDir}/repo/forge-proxy")
+        }
+        mavenCentral()
+        maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net"
         }
         maven {
             name = "sonatype"
@@ -16,6 +24,10 @@ buildscript {
     dependencies {
         classpath 'com.github.Doenerstyle:ForgeGradle:1.2-1.0.+'
     }
+}
+
+if (java.security.Security.getProvider("SunEC") == null) {
+    java.security.Security.addProvider(new sun.security.ec.SunEC())
 }
 
 configurations {

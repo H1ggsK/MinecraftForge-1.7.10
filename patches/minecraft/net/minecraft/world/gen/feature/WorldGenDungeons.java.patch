@@ -23,7 +23,7 @@
 +                                        WeightedRandomChestContent.func_76293_a(p_76484_2_, ChestGenHooks.getItems(DUNGEON_CHEST, p_76484_2_), tileentitychest, ChestGenHooks.getCount(DUNGEON_CHEST, p_76484_2_));
                                      }
  
-                                     break label101;
+                                     break label197;
 @@ -167,7 +169,6 @@
  
      private String func_76543_b(Random p_76543_1_)

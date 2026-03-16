@@ -9,12 +9,21 @@
 if "%OS%"=="Windows_NT" setlocal
 
 @rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-set DEFAULT_JVM_OPTS=
+set DEFAULT_JVM_OPTS=-Dhttps.protocols=TLSv1.2 -Djdk.tls.client.protocols=TLSv1.2
 
 set DIRNAME=%~dp0
 if "%DIRNAME%" == "" set DIRNAME=.
 set APP_BASE_NAME=%~n0
 set APP_HOME=%DIRNAME%
+if "%GRADLE_USER_HOME%" == "" set GRADLE_USER_HOME=%APP_HOME%\.gradle
+set LOCAL_JDK8_HOME=%APP_HOME%\.jdks\jdk8u482-b08
+if exist "%LOCAL_JDK8_HOME%\lib\tools.jar" (
+    if "%JAVA_HOME%" == "" (
+        set JAVA_HOME=%LOCAL_JDK8_HOME%
+    ) else (
+        if not exist "%JAVA_HOME%\lib\tools.jar" set JAVA_HOME=%LOCAL_JDK8_HOME%
+    )
+)
 
 @rem Find java.exe
 if defined JAVA_HOME goto findJavaFromJavaHome

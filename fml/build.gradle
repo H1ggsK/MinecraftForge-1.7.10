@@ -1,10 +1,17 @@
 buildscript {
+    if (java.security.Security.getProvider("SunEC") == null) {
+        java.security.Security.addProvider(new sun.security.ec.SunEC())
+    }
     repositories {
+        maven {
+            name = "localForgeProxy"
+            url = uri("${rootDir}/repo/forge-proxy")
+        }
         mavenCentral()
         mavenLocal()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net"
         }
         maven {
             name = "sonatype"
@@ -14,6 +21,10 @@ buildscript {
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
+}
+
+if (java.security.Security.getProvider("SunEC") == null) {
+    java.security.Security.addProvider(new sun.security.ec.SunEC())
 }
 
 import static net.minecraftforge.gradle.dev.FmlDevPlugin.*

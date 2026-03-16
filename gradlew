@@ -7,7 +7,7 @@
 ##############################################################################
 
 # Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-DEFAULT_JVM_OPTS=""
+DEFAULT_JVM_OPTS="-Dhttps.protocols=TLSv1.2 -Djdk.tls.client.protocols=TLSv1.2"
 
 APP_NAME="Gradle"
 APP_BASE_NAME=`basename "$0"`
@@ -64,6 +64,19 @@ SAVED="`pwd`"
 cd "`dirname \"$PRG\"`/" >&-
 APP_HOME="`pwd -P`"
 cd "$SAVED" >&-
+
+if [ -z "$GRADLE_USER_HOME" ] ; then
+    GRADLE_USER_HOME="$APP_HOME/.gradle"
+fi
+export GRADLE_USER_HOME
+
+LOCAL_JDK8_HOME="$APP_HOME/.jdks/jdk8u482-b08"
+if [ -d "$LOCAL_JDK8_HOME" ] ; then
+    if [ -z "$JAVA_HOME" ] || [ ! -f "$JAVA_HOME/lib/tools.jar" ] ; then
+        JAVA_HOME="$LOCAL_JDK8_HOME"
+    fi
+fi
+export JAVA_HOME
 
 CLASSPATH=$APP_HOME/fml/gradle/wrapper/gradle-wrapper.jar
 
