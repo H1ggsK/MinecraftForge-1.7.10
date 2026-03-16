@@ -68,15 +68,6 @@ cd "$SAVED" >&-
 if [ -z "$GRADLE_USER_HOME" ] ; then
     GRADLE_USER_HOME="$APP_HOME/.gradle"
 fi
-export GRADLE_USER_HOME
-
-LOCAL_JDK8_HOME="$APP_HOME/.jdks/jdk8u482-b08"
-if [ -d "$LOCAL_JDK8_HOME" ] ; then
-    if [ -z "$JAVA_HOME" ] || [ ! -f "$JAVA_HOME/lib/tools.jar" ] ; then
-        JAVA_HOME="$LOCAL_JDK8_HOME"
-    fi
-fi
-export JAVA_HOME
 
 CLASSPATH=$APP_HOME/fml/gradle/wrapper/gradle-wrapper.jar
 
