@@ -8,7 +8,15 @@
  import org.apache.commons.io.Charsets;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
-@@ -51,6 +52,8 @@
+@@ -42,6 +43,7 @@
+     private static final Random field_73976_a = new Random();
+     private float field_73974_b;
+     private String field_73975_c;
++    private boolean hasCustomSplashText;
+     private GuiButton field_73973_d;
+     private int field_73979_m;
+     private DynamicTexture field_73977_n;
+@@ -51,6 +53,8 @@
      private String field_104024_v;
      private static final ResourceLocation field_110353_x = new ResourceLocation("texts/splashes.txt");
      private static final ResourceLocation field_110352_y = new ResourceLocation("textures/gui/title/minecraft.png");
@@ -17,16 +25,124 @@
      private static final ResourceLocation[] field_73978_o = new ResourceLocation[] {new ResourceLocation("textures/gui/title/background/panorama_0.png"), new ResourceLocation("textures/gui/title/background/panorama_1.png"), new ResourceLocation("textures/gui/title/background/panorama_2.png"), new ResourceLocation("textures/gui/title/background/panorama_3.png"), new ResourceLocation("textures/gui/title/background/panorama_4.png"), new ResourceLocation("textures/gui/title/background/panorama_5.png")};
      public static final String field_96138_a = "Please click " + EnumChatFormatting.UNDERLINE + "here" + EnumChatFormatting.RESET + " for more information.";
      private int field_92024_r;
-@@ -65,7 +68,7 @@
+@@ -65,32 +69,53 @@
      public GuiMainMenu()
      {
          this.field_146972_A = field_96138_a;
 -        this.field_73975_c = "missingno";
 +        this.field_73975_c = "";
++        this.hasCustomSplashText = System.getProperty("nebula.mainmenusplashtext") != null;
++
++        if (this.hasCustomSplashText)
++        {
++            this.field_73975_c = System.getProperty("nebula.mainmenusplashtext");
++        }
++
          BufferedReader bufferedreader = null;
  
          try
-@@ -175,9 +178,16 @@
+         {
+-            ArrayList arraylist = new ArrayList();
+-            bufferedreader = new BufferedReader(new InputStreamReader(Minecraft.func_71410_x().func_110442_L().func_110536_a(field_110353_x).func_110527_b(), Charsets.UTF_8));
+-            String s;
+-
+-            while ((s = bufferedreader.readLine()) != null)
++            if (!this.hasCustomSplashText)
+             {
+-                s = s.trim();
++                ArrayList arraylist = new ArrayList();
++                bufferedreader = new BufferedReader(new InputStreamReader(Minecraft.func_71410_x().func_110442_L().func_110536_a(field_110353_x).func_110527_b(), Charsets.UTF_8));
++                String s;
+ 
+-                if (!s.isEmpty())
++                while ((s = bufferedreader.readLine()) != null)
+                 {
+-                    arraylist.add(s);
++                    s = s.trim();
++
++                    if (!s.isEmpty())
++                    {
++                        arraylist.add(s);
++                    }
+                 }
+-            }
+ 
+-            if (!arraylist.isEmpty())
+-            {
+-                do
++                if (!arraylist.isEmpty())
+                 {
+-                    this.field_73975_c = (String)arraylist.get(field_73976_a.nextInt(arraylist.size()));
++                    int i = field_73976_a.nextInt(arraylist.size());
++                    this.field_73975_c = (String)arraylist.get(i);
++
++                    if (this.field_73975_c.hashCode() == 125780783)
++                    {
++                        for (int j = 0; j < arraylist.size(); ++j)
++                        {
++                            String s1 = (String)arraylist.get((i + j + 1) % arraylist.size());
++
++                            if (s1.hashCode() != 125780783)
++                            {
++                                this.field_73975_c = s1;
++                                break;
++                            }
++                        }
++                    }
+                 }
+-                while (this.field_73975_c.hashCode() == 125780783);
+             }
+         }
+         catch (IOException ioexception1)
+@@ -142,26 +167,29 @@
+         Calendar calendar = Calendar.getInstance();
+         calendar.setTime(new Date());
+ 
+-        if (calendar.get(2) + 1 == 11 && calendar.get(5) == 9)
++        if (!this.hasCustomSplashText)
+         {
+-            this.field_73975_c = "Happy birthday, ez!";
++            if (calendar.get(2) + 1 == 11 && calendar.get(5) == 9)
++            {
++                this.field_73975_c = "Happy birthday, ez!";
++            }
++            else if (calendar.get(2) + 1 == 6 && calendar.get(5) == 1)
++            {
++                this.field_73975_c = "Happy birthday, Notch!";
++            }
++            else if (calendar.get(2) + 1 == 12 && calendar.get(5) == 24)
++            {
++                this.field_73975_c = "Merry X-mas!";
++            }
++            else if (calendar.get(2) + 1 == 1 && calendar.get(5) == 1)
++            {
++                this.field_73975_c = "Happy new year!";
++            }
++            else if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31)
++            {
++                this.field_73975_c = "OOoooOOOoooo! Spooky!";
++            }
+         }
+-        else if (calendar.get(2) + 1 == 6 && calendar.get(5) == 1)
+-        {
+-            this.field_73975_c = "Happy birthday, Notch!";
+-        }
+-        else if (calendar.get(2) + 1 == 12 && calendar.get(5) == 24)
+-        {
+-            this.field_73975_c = "Merry X-mas!";
+-        }
+-        else if (calendar.get(2) + 1 == 1 && calendar.get(5) == 1)
+-        {
+-            this.field_73975_c = "Happy new year!";
+-        }
+-        else if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31)
+-        {
+-            this.field_73975_c = "OOoooOOOoooo! Spooky!";
+-        }
+ 
+         boolean flag = true;
+         int i = this.field_146295_m / 4 + 48;
+@@ -175,9 +203,16 @@
              this.func_73969_a(i, 24);
          }
  
@@ -46,7 +162,7 @@
          Object object = this.field_104025_t;
  
          synchronized (this.field_104025_t)
-@@ -195,14 +205,28 @@
+@@ -195,14 +230,28 @@
      private void func_73969_a(int p_73969_1_, int p_73969_2_)
      {
          this.field_146292_n.add(new GuiButton(1, this.field_146294_l / 2 - 100, p_73969_1_, I18n.func_135052_a("menu.singleplayer", new Object[0])));
@@ -78,7 +194,7 @@
      }
  
      private void func_73972_b(int p_73972_1_, int p_73972_2_)
-@@ -465,7 +489,7 @@
+@@ -465,7 +514,7 @@
          byte b0 = 30;
          this.func_73733_a(0, 0, this.field_146294_l, this.field_146295_m, -2130706433, 16777215);
          this.func_73733_a(0, 0, this.field_146294_l, this.field_146295_m, 0, Integer.MIN_VALUE);
@@ -87,7 +203,7 @@
          GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
  
          if ((double)this.field_73974_b < 1.0E-4D)
-@@ -491,7 +515,7 @@
+@@ -491,7 +540,7 @@
          GL11.glScalef(f1, f1, f1);
          this.func_73732_a(this.field_146289_q, this.field_73975_c, 0, -8, -256);
          GL11.glPopMatrix();
@@ -96,7 +212,7 @@
  
          if (this.field_146297_k.func_71355_q())
          {
-@@ -507,7 +531,14 @@
+@@ -507,7 +556,14 @@
                  this.func_73731_b(this.field_146289_q, brd, 2, this.field_146295_m - ( 10 + i * (this.field_146289_q.field_78288_b + 1)), 16777215);
              }
          }
@@ -112,7 +228,7 @@
          this.func_73731_b(this.field_146289_q, s1, this.field_146294_l - this.field_146289_q.func_78256_a(s1) - 2, this.field_146295_m - 10, -1);
  
          if (this.field_92025_p != null && this.field_92025_p.length() > 0)
-@@ -535,4 +566,59 @@
+@@ -535,4 +591,59 @@
              }
          }
      }
