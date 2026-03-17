@@ -8,7 +8,16 @@
  import org.apache.commons.io.Charsets;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
-@@ -65,7 +66,7 @@
+@@ -51,6 +52,8 @@
+     private String field_104024_v;
+     private static final ResourceLocation field_110353_x = new ResourceLocation("texts/splashes.txt");
+     private static final ResourceLocation field_110352_y = new ResourceLocation("textures/gui/title/minecraft.png");
++    private static final ResourceLocation blackTitleTextures = new ResourceLocation("textures/gui/title/blackTitleTexture.png");
++    private boolean doBlackTitleTexture = Boolean.parseBoolean(System.getProperty("nebula.mainmenublacklogo", "false"));
+     private static final ResourceLocation[] field_73978_o = new ResourceLocation[] {new ResourceLocation("textures/gui/title/background/panorama_0.png"), new ResourceLocation("textures/gui/title/background/panorama_1.png"), new ResourceLocation("textures/gui/title/background/panorama_2.png"), new ResourceLocation("textures/gui/title/background/panorama_3.png"), new ResourceLocation("textures/gui/title/background/panorama_4.png"), new ResourceLocation("textures/gui/title/background/panorama_5.png")};
+     public static final String field_96138_a = "Please click " + EnumChatFormatting.UNDERLINE + "here" + EnumChatFormatting.RESET + " for more information.";
+     private int field_92024_r;
+@@ -65,7 +68,7 @@
      public GuiMainMenu()
      {
          this.field_146972_A = field_96138_a;
@@ -17,7 +26,7 @@
          BufferedReader bufferedreader = null;
  
          try
-@@ -175,9 +176,16 @@
+@@ -175,9 +178,16 @@
              this.func_73969_a(i, 24);
          }
  
@@ -37,7 +46,7 @@
          Object object = this.field_104025_t;
  
          synchronized (this.field_104025_t)
-@@ -195,14 +203,28 @@
+@@ -195,14 +205,28 @@
      private void func_73969_a(int p_73969_1_, int p_73969_2_)
      {
          this.field_146292_n.add(new GuiButton(1, this.field_146294_l / 2 - 100, p_73969_1_, I18n.func_135052_a("menu.singleplayer", new Object[0])));
@@ -69,7 +78,16 @@
      }
  
      private void func_73972_b(int p_73972_1_, int p_73972_2_)
-@@ -491,7 +513,7 @@
+@@ -465,7 +489,7 @@
+         byte b0 = 30;
+         this.func_73733_a(0, 0, this.field_146294_l, this.field_146295_m, -2130706433, 16777215);
+         this.func_73733_a(0, 0, this.field_146294_l, this.field_146295_m, 0, Integer.MIN_VALUE);
+-        this.field_146297_k.func_110434_K().func_110577_a(field_110352_y);
++        this.field_146297_k.func_110434_K().func_110577_a(doBlackTitleTexture ? blackTitleTextures : field_110352_y);
+         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+ 
+         if ((double)this.field_73974_b < 1.0E-4D)
+@@ -491,7 +515,7 @@
          GL11.glScalef(f1, f1, f1);
          this.func_73732_a(this.field_146289_q, this.field_73975_c, 0, -8, -256);
          GL11.glPopMatrix();
@@ -78,7 +96,7 @@
  
          if (this.field_146297_k.func_71355_q())
          {
-@@ -507,7 +529,14 @@
+@@ -507,7 +531,14 @@
                  this.func_73731_b(this.field_146289_q, brd, 2, this.field_146295_m - ( 10 + i * (this.field_146289_q.field_78288_b + 1)), 16777215);
              }
          }
@@ -94,7 +112,7 @@
          this.func_73731_b(this.field_146289_q, s1, this.field_146294_l - this.field_146289_q.func_78256_a(s1) - 2, this.field_146295_m - 10, -1);
  
          if (this.field_92025_p != null && this.field_92025_p.length() > 0)
-@@ -535,4 +564,59 @@
+@@ -535,4 +566,59 @@
              }
          }
      }
